@@ -8,7 +8,7 @@ const Input = ({ typeOfText, type, ...props }: Props) => {
   if (typeOfText === "multiple" && type === "text") {
     return <textarea {...props}></textarea>;
   } else if (typeOfText === "single" && type === "email") {
-    return <input {...props} type="email" />;
+    return <input {...props} type="email" required />;
   } else if (type === "date" && typeOfText === "single") {
     return <input {...props} type="date" />;
   } else if (typeOfText === "single" && type === "password") {

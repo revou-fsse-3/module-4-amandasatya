@@ -1,4 +1,4 @@
-import Form from "./components/Form";
+import MultipleForm from "./components/Form";
 import { Title, Icon } from "./components";
 // import { Icon } from "./components";
 import Makan1 from "./components/Images/1.jpg";
@@ -22,7 +22,7 @@ function App() {
             </Title>
             <Title style={{ fontSize: "15px" }}>{"Or Register Via"}</Title>
             <Icon />
-            <Form />
+            <MultipleForm />
           </div>
         </div>
       </div>
