@@ -1,4 +1,3 @@
-import { Title } from "..";
 interface Props {
   currentBar: number;
   totalBar: number;
