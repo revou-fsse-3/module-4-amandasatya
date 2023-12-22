@@ -17,15 +17,24 @@ const SignupForm = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("Full Name is Required"),
+      fullName: Yup.string()
+        .min(3, "minimum 3 or more character require")
+        .max(15, "maximum is 15 character")
+        .required("Full Name is Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      dateOfBirth: Yup.string().required("Date Of Birth is Required"),
+      dateOfBirth: Yup.date()
+        .required("Date of Birth is Required")
+        .max(new Date(), "Date of Birth cannot be more than today"),
       streetAddress: Yup.string().required("Street Addresss is Required"),
       city: Yup.string().required("City is Required"),
       state: Yup.string().required("State is Required"),
-      zipCode: Yup.string().required("Zip Code is Required"),
+      zipCode: Yup.string()
+        .required("Zip Code is Required")
+        .matches(/^\d{5}$/, "Invalid Zip Code format. Must be 5 digits"),
       userName: Yup.string().required("User Name is Required"),
-      password: Yup.string().required("Password is Required"),
+      password: Yup.string()
+        .min(8, "Password must be at least 8 characters")
+        .required("Password is Required"),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values);
@@ -116,6 +125,7 @@ const SignupForm = () => {
                 className="bg-red-200 text-white w-24 rounded-md p-2 hover:bg-red-300 "
                 type="button"
                 handleClick={nextStep}
+                disabled={formik.isValid}
               />
             </Card>
           )}
@@ -199,6 +209,7 @@ const SignupForm = () => {
                   className="bg-red-200 text-white w-24 rounded-md p-2 hover:bg-red-300 "
                   type="button"
                   handleClick={nextStep}
+                  disabled={formik.isValid}
                 />
               </div>
             </Card>
