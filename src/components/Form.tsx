@@ -21,7 +21,9 @@ const SignupForm = () => {
         .min(3, "minimum 3 or more character require")
         .max(15, "maximum is 15 character")
         .required("Full Name is Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email Is Required"),
       dateOfBirth: Yup.date()
         .required("Date of Birth is Required")
         .max(new Date(), "Date of Birth cannot be more than today"),
@@ -36,8 +38,7 @@ const SignupForm = () => {
         .min(8, "Password must be at least 8 characters")
         .required("Password is Required"),
     }),
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
+    onSubmit: (_, { resetForm }) => {
       Swal.fire({
         title: "Success",
         text: "Thank you for registering !",
@@ -48,21 +49,36 @@ const SignupForm = () => {
       setStep(1);
     },
   });
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState(1);
   const totalSteps = 3;
 
   const nextStep = () => {
-    if (step === 3) {
-      return;
-    }
-    console.log("Is valid:", formik.isValid);
-    setStep((e) => e + 1);
+    if (step === 3) return;
+    formik.validateForm().then((errors) => {
+      if (Object.keys(errors).length > 0) {
+        if (step === 1) {
+          if (errors.fullName || errors.email || errors.dateOfBirth) return;
+        }
+        if (step === 2) {
+          if (
+            errors.streetAddress ||
+            errors.city ||
+            errors.state ||
+            errors.zipCode
+          )
+            return;
+        }
+        if (step === 3) {
+          if (errors.userName || errors.password) return;
+        }
+      }
+      setStep((e) => e + 1);
+    });
   };
   const prevStep = () => {
     if (step === 1) {
       return;
     }
-    console.log("Is valid:", formik.isValid);
     setStep((e) => e - 1);
   };
 
@@ -85,7 +101,7 @@ const SignupForm = () => {
                   value={formik.values.fullName}
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.fullName && formik.errors.fullName ? (
+                {formik.errors.fullName ? (
                   <div>{formik.errors.fullName}</div>
                 ) : null}
               </div>
@@ -100,9 +116,7 @@ const SignupForm = () => {
                   name="email"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.email && formik.errors.email ? (
-                  <div>{formik.errors.email}</div>
-                ) : null}
+                {formik.errors.email ? <div>{formik.errors.email}</div> : null}
               </div>
 
               <div className="flex flex-col w-full">
@@ -115,7 +129,7 @@ const SignupForm = () => {
                   name="dateOfBirth"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
+                {formik.errors.dateOfBirth ? (
                   <div>{formik.errors.dateOfBirth}</div>
                 ) : null}
               </div>
@@ -123,9 +137,8 @@ const SignupForm = () => {
               <Button
                 label={"Next"}
                 className="bg-red-200 text-white w-24 rounded-md p-2 hover:bg-red-300 "
-                type="button"
+                type="submit"
                 handleClick={nextStep}
-                disabled={formik.isValid}
               />
             </Card>
           )}
@@ -144,7 +157,7 @@ const SignupForm = () => {
                   name="streetAddress"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.streetAddress && formik.errors.streetAddress ? (
+                {formik.errors.streetAddress ? (
                   <div>{formik.errors.streetAddress}</div>
                 ) : null}
               </div>
@@ -160,9 +173,7 @@ const SignupForm = () => {
                   name="city"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.city && formik.errors.city ? (
-                  <div>{formik.errors.city}</div>
-                ) : null}
+                {formik.errors.city ? <div>{formik.errors.city}</div> : null}
               </div>
 
               <div className="flex flex-col w-full">
@@ -176,9 +187,7 @@ const SignupForm = () => {
                   name="state"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.state && formik.errors.state ? (
-                  <div>{formik.errors.state}</div>
-                ) : null}
+                {formik.errors.state ? <div>{formik.errors.state}</div> : null}
               </div>
 
               <div className="flex flex-col w-full">
@@ -192,7 +201,7 @@ const SignupForm = () => {
                   name="zipCode"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.zipCode && formik.errors.zipCode ? (
+                {formik.errors.zipCode ? (
                   <div>{formik.errors.zipCode}</div>
                 ) : null}
               </div>
@@ -207,9 +216,8 @@ const SignupForm = () => {
                 <Button
                   label={"Next"}
                   className="bg-red-200 text-white w-24 rounded-md p-2 hover:bg-red-300 "
-                  type="button"
+                  type="submit"
                   handleClick={nextStep}
-                  disabled={formik.isValid}
                 />
               </div>
             </Card>
@@ -229,7 +237,7 @@ const SignupForm = () => {
                   name="userName"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.userName && formik.errors.userName ? (
+                {formik.errors.userName ? (
                   <div>{formik.errors.userName}</div>
                 ) : null}
               </div>
@@ -245,7 +253,7 @@ const SignupForm = () => {
                   name="password"
                   className="border-b-2 border-gray-300 outline-none px-4 py-2 rounded-md focus:border-red-200"
                 />
-                {formik.touched.password && formik.errors.password ? (
+                {formik.errors.password ? (
                   <div>{formik.errors.password}</div>
                 ) : null}
               </div>
