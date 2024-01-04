@@ -4,3 +4,6 @@ export { default as Input } from "./Input";
 export { default as Title } from "./Title";
 export { default as Icon } from "./Icon";
 export { default as ProgressBar } from "./ProgressBar";
+export { default as RegiterUser } from "../pages/Register/Register";
+export { default as LoginUser } from "../pages/Login/Login";
+export { default as ProfileUser } from "../pages/Profile/Profile";
