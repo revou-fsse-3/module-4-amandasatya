@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 const LoginUser: React.FC = () => {
+  const navigate = useNavigate();
   const API_BASE_URL = "https://mock-api.arikmpt.com/api/user/";
   const formik = useFormik({
     initialValues: {
@@ -22,9 +24,10 @@ const LoginUser: React.FC = () => {
 
         const response = await axios.post(`${API_BASE_URL}/login`, values);
         localStorage.setItem("authToken", response.data.data.token);
-        // console.log("token", response.data.data.token);
+        console.log("token", response.data.data.token);
         // console.log("api after", response);
         resetForm();
+        navigate("/listCategory");
         return response.data;
       } catch (error) {
         console.error("Error:", error);
@@ -33,8 +36,8 @@ const LoginUser: React.FC = () => {
   });
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white p-10 rounded shadow-md h-full w-full">
+    <div className="flex justify-center items-center ">
+      <div className="bg-white p-10 rounded shadow-md h-full w-1/2">
         <h2 className="text-2xl font-semibold mb-4 text-center">Log In</h2>
         <form
           className="flex flex-col justify-center items-center"
@@ -76,6 +79,14 @@ const LoginUser: React.FC = () => {
           >
             Log In
           </button>
+          <Link to="/register">
+            <div className="p-2">
+              <h1>
+                Didn't have an Account ?{" "}
+                <strong className="text-red-500">register</strong>
+              </h1>
+            </div>
+          </Link>
         </form>
       </div>
     </div>

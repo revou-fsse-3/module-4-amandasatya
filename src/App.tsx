@@ -1,23 +1,45 @@
 import MultipleForm from "./components/Form";
-import { Title, Icon, RegiterUser, LoginUser, ProfileUser } from "./components";
-import Makan1 from "./components/Images/1.jpg";
-import { Route, Routes } from "react-router-dom";
+import {
+  RegiterUser,
+  LoginUser,
+  ProfileUser,
+  ListCategory,
+  UpdatedCategory,
+} from "./components";
+import { BrowserRouter, Route, Routes, Link, NavLink } from "react-router-dom";
 
 function App() {
   return (
-    <>
-      <div className="flex flex-col justify-start items-center m-8">
-        <Title style={{ fontSize: "18px", fontWeight: "bold" }}>
-          {"Welcome To The Register Page"}
-        </Title>
-        <Title style={{ fontSize: "15px" }}>{"Or Register Via"}</Title>
-        <Icon />
-        <MultipleForm />
-      </div>
-      <RegiterUser />
-      <LoginUser />
-      <ProfileUser />
-    </>
+    <BrowserRouter>
+      <header>
+        <nav className="flex flex-col justify-center items-center p-5 gap-1">
+          <h1>Assignment module 2</h1>
+          <Link
+            to="/"
+            className="bg-black w-32 text-white text-center rounded-md"
+          >
+            Check Point 1
+          </Link>
+          <NavLink
+            to="login"
+            className="bg-black w-32 text-white text-center rounded-md"
+          >
+            Module 2 final
+          </NavLink>
+        </nav>
+      </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<MultipleForm />} />
+          <Route path="/checkpoint1" element={<MultipleForm />} />
+          <Route path="/login" element={<LoginUser />} />
+          <Route path="/register" element={<RegiterUser />} />
+          <Route path="/profile" element={<ProfileUser />} />
+          <Route path="/listCategory" element={<ListCategory />} />
+          <Route path="/updateCategory" element={<UpdatedCategory />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -36,8 +37,8 @@ const RegisterUser: React.FC = () => {
   });
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white p-10 rounded shadow-md h-full w-full">
+    <div className="flex justify-center items-center">
+      <div className="bg-white p-10 rounded shadow-md h-full w-1/2">
         <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
         <form
           className="flex flex-col justify-center items-center"
@@ -94,6 +95,14 @@ const RegisterUser: React.FC = () => {
           >
             Register
           </button>
+          <Link to="/login">
+            <div className="p-2">
+              <h1>
+                Already have an Account?{" "}
+                <strong className="text-red-500">Login</strong>
+              </h1>
+            </div>
+          </Link>
         </form>
       </div>
     </div>

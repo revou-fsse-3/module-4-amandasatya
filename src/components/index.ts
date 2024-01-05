@@ -7,3 +7,5 @@ export { default as ProgressBar } from "./ProgressBar";
 export { default as RegiterUser } from "../pages/Register/Register";
 export { default as LoginUser } from "../pages/Login/Login";
 export { default as ProfileUser } from "../pages/Profile/Profile";
+export { default as ListCategory } from "../pages/ListCategory/ListCategory";
+export { default as UpdatedCategory } from "../pages/UpdateCategories/UpdateCategories";
